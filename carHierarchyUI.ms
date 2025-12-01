@@ -16,10 +16,19 @@ fn isValidDummy d =
 (
     if not isKindOf d Dummy then return false
     if matchPattern d.name pattern:"source*" then return false
+    
+    -- root_* ?????? ???????
     if matchPattern d.name pattern:"root_*" then return true
+    
+    -- ?????????? ??? interior_stock ? interior_missile
+    if (matchPattern d.name pattern:"interior_stock" ignoreCase:true) or 
+       (matchPattern d.name pattern:"interior_missile" ignoreCase:true) then return true
+    
+    -- ??????????? ???????? ?? ????????? ?????
     local firstChar = substring d.name 1 1
     (firstChar == toUpper firstChar)
 )
+
 
 fn collectChildrenSkipMeshes obj arr =
 (
@@ -132,12 +141,22 @@ fn rebuildTree tv =
     selectedNodes = #()
     lastSelectedNode = undefined
 
+    -- ???????? dummy (root_*)
     local roots = for obj in objects where (
         isValidDummy obj and matchPattern obj.name pattern:"root_*" and
         (obj.parent == undefined or not isKindOf obj.parent Dummy)
     ) collect obj
 
-    for r in roots do
+    -- orphan dummy (?? root, ?? ??? ????????-dummy)
+    local orphans = for obj in objects where (
+        isValidDummy obj and not matchPattern obj.name pattern:"root_*" and
+        (obj.parent == undefined or not isKindOf obj.parent Dummy)
+    ) collect obj
+
+    -- ??????????
+    local allRoots = roots + orphans
+
+    for r in allRoots do
     (
         local rootNode = tv.Nodes.Add r.name
         rootNode.Tag = dotNetMXSValue r
@@ -147,6 +166,7 @@ fn rebuildTree tv =
     tv.EndUpdate()
     tv.ExpandAll()
 )
+
 
 fn changeHighlightColor tv cbColors =
 (
