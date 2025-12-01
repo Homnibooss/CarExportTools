@@ -160,9 +160,8 @@ rollout mainExportRollout "Main Scene/Export Tools"
     button btnExpandAll   "Expand All"  pos:[540,30] width:100 height:28
     button btnCollapseAll "Collapse All" pos:[650,30] width:110 height:28
 
-    dotNetControl tv "System.Windows.Forms.TreeView" pos:[430,80] width:430 height:540
-    dotNetControl cbColors "System.Windows.Forms.ComboBox" pos:[430,630] width:180 height:25
-    dotNetControl cbBackColors "System.Windows.Forms.ComboBox" pos:[630,630] width:180 height:25
+    dotNetControl tv "System.Windows.Forms.TreeView" pos:[430,80] width:430 height:580
+   
 	
 	
 on utilitiesRollout open do
