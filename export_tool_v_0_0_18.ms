@@ -1,4 +1,3 @@
-try(destroyDialog utilitiesRollout) catch()
 include "$scripts/helperCreator.ms"
 include "$scripts/carHierarchyUI.ms"
 
@@ -153,47 +152,13 @@ rollout mainExportRollout "Main Scene/Export Tools"
     checkbox chk_selected "Only Selected" checked:false pos:[20,355] width:260
     button   btn_apply "Apply" pos:[20,380] width:260 height:25
 	
-	groupBox grpHierarchyRight "Hierarchy Viewer" pos:[420,10] width:460 height:660
+	    -- Scene Hierarchy Viewer
+    groupBox grpHierarchyView "Scene Hierarchy" pos:[340,10] width:400 height:600
+    button btnUpdateHierarchy "Update" pos:[350,30] width:100 height:25
+    button btnExpandHierarchy "Expand All" pos:[460,30] width:100 height:25
+    button btnCollapseHierarchy "Collapse All" pos:[570,30] width:100 height:25
+    dotNetControl tvHierarchy "System.Windows.Forms.TreeView" pos:[350,70] width:380 height:520
 
-
-    button btnUpdate      "Update"      pos:[430,30] width:100 height:28
-    button btnExpandAll   "Expand All"  pos:[540,30] width:100 height:28
-    button btnCollapseAll "Collapse All" pos:[650,30] width:110 height:28
-
-    dotNetControl tv "System.Windows.Forms.TreeView" pos:[430,80] width:430 height:580
-   
-	
-	
-on utilitiesRollout open do
-(
-    setupTreeView tv cbColors cbBackColors
-
-    cbColors.Items.Clear()
-    cbBackColors.Items.Clear()
-
-    local colors = #("LightBlue","LightGreen","LightYellow","Orange","Pink","Purple","Gray","White","Black")
-    for c in colors do
-    (
-        cbColors.Items.Add c
-        cbBackColors.Items.Add c
-    )
-
-    cbColors.SelectedIndex = 0
-    cbBackColors.SelectedIndex = 7 -- White
-
-    rebuildTree tv
-)
-
-
-
-    on btnUpdate pressed do rebuildTree tv
-    on btnExpandAll pressed do tv.ExpandAll()
-    on btnCollapseAll pressed do tv.CollapseAll()
-
-    on cbColors SelectedIndexChanged sender args do changeHighlightColor tv cbColors
-    on cbBackColors SelectedIndexChanged sender args do changeBackColor tv cbBackColors
-
-    on tv NodeMouseClick sender args do handleNodeClick tv args
 	
 	
 	fn hexToColor hexStr =
@@ -264,6 +229,17 @@ on btn_turnRight pressed do placeHelper "turn_right" "B1581B" [90,0,270]
     on mainExportRollout open do
     (
         if g_exportFolder != "" then edtFolderPath.text = g_exportFolder
+			setupTreeView tvHierarchy
+        rebuildTree tvHierarchy
+    )
+	
+	on btnUpdateHierarchy pressed do rebuildTree tvHierarchy
+    on btnExpandHierarchy pressed do expandAllTree tvHierarchy
+    on btnCollapseHierarchy pressed do collapseAllTree tvHierarchy
+		
+	
+	on tvHierarchy NodeMouseClick sender args do (
+        handleNodeClick sender args -- ?????? ????????? ????? ? ??????? ?? carHierarchy.ms
     )
 
     /* Folder selection */
@@ -537,21 +513,21 @@ on btn_turnRight pressed do placeHelper "turn_right" "B1581B" [90,0,270]
 rollout utilitiesRollout "CarParts Tool"
 (
     button btnOpenExport         "Main Tools"    width:150 height:30 pos:[10,10]
-    button btnOpenVertexChecker  "Vertex Color Checker"        width:150 height:30 pos:[10,50]
-    button btnOpenNgonsFinder    "N-gons Checker"                 width:150 height:30 pos:[10,90]
+    button btnOpenVertexChecker  "VertexColor Checker"        width:150 height:30 pos:[10,50]
+    button btnOpenNgonsFinder    "N-gons Cheker"                 width:150 height:30 pos:[10,90]
 	button btnOpenHelperCreator "Helper Creator" width:150 height:30 pos:[10,130]
 
     on btnOpenHelperCreator pressed do
     (
        try(destroyDialog helperCreator) catch()
-    createDialog helperCreator width:260 height:380 style:#(#style_toolwindow, #style_sysmenu)
+    createDialog helperCreator width:260 height:320 style:#(#style_toolwindow, #style_sysmenu)
     )
 
 
     on btnOpenExport pressed do
     (
         try(destroyDialog mainExportRollout) catch()
-        createDialog mainExportRollout width:890 height:680 style:#(#style_toolwindow, #style_sysmenu)
+        createDialog mainExportRollout width:1000 height:640 style:#(#style_toolwindow, #style_sysmenu)
     )
 
     on btnOpenVertexChecker pressed do
