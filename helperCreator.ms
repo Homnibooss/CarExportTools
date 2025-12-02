@@ -170,8 +170,8 @@ helperList = #(
 			
     #("root_exhaustpipe", [0,0,0], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
 		#("ExhaustPipe_stock", [0,0,0], "root_exhaustpipe", 0.1, (eulerAngles -90 0 0)),
-			#("marker_exhaust1", [0,-0.927,0.176], "ExhaustPipe_stock", 0.1, (eulerAngles 0 0 0)),
-			#("marker_exhaust2", [0.404,1.710,0.053], "ExhaustPipe_stock", 0.1, (eulerAngles 0 0 0)),
+			#("marker_exhaust1", [0,-0.927,0.176], "Point", "ExhaustPipe_stock", 0.1, (eulerAngles 0 0 0)),
+			#("marker_exhaust2", [0.404,1.710,0.053], "Point", "ExhaustPipe_stock", 0.1, (eulerAngles 0 0 0)),
 		#("ExhaustPipe_stockV", [0,0,0], "root_exhaustpipe", 0.1, (eulerAngles -90 0 0)),
 			#("marker_exhaust1l", [0.342,-0.927,0.176], "Point", "ExhaustPipe_stockV", 0.1, (eulerAngles 0 0 0)),
 			#("marker_exhaust1r", [-0.342,-0.927,0.176], "Point", "ExhaustPipe_stockV", 0.1, (eulerAngles 0 0 0)),
