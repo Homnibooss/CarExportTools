@@ -544,7 +544,7 @@ rollout utilitiesRollout "CarParts Tool"
     on btnOpenHelperCreator pressed do
     (
        try(destroyDialog helperCreator) catch()
-    createDialog helperCreator width:260 height:320 style:#(#style_toolwindow, #style_sysmenu)
+    createDialog helperCreator width:260 height:380 style:#(#style_toolwindow, #style_sysmenu)
     )
 
 

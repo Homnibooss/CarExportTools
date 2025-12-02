@@ -170,12 +170,12 @@ helperList = #(
 			
     #("root_exhaustpipe", [0,0,0], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
 		#("ExhaustPipe_stock", [0,0,0], "root_exhaustpipe", 0.1, (eulerAngles -90 0 0)),
-			#("marker_exhaust1", [0.012,-0.927,0.176], "ExhaustPipe_stock", 0.1, (eulerAngles 0 0 0)),
+			#("marker_exhaust1", [0,-0.927,0.176], "ExhaustPipe_stock", 0.1, (eulerAngles 0 0 0)),
 			#("marker_exhaust2", [0.404,1.710,0.053], "ExhaustPipe_stock", 0.1, (eulerAngles 0 0 0)),
 		#("ExhaustPipe_stockV", [0,0,0], "root_exhaustpipe", 0.1, (eulerAngles -90 0 0)),
-			#("marker_exhaust1l", [0.342,-0.927,0.176], "ExhaustPipe_stockV", 0.1, (eulerAngles 0 0 0)),
-			#("marker_exhaust1r", [-0.342,-0.927,0.176], "ExhaustPipe_stockV", 0.1, (eulerAngles 0 0 0)),
-			#("marker_exhaust2", [0.404,1.710,0.053], "ExhaustPipe_stockV", 0.1, (eulerAngles 0 0 0)),
+			#("marker_exhaust1l", [0.342,-0.927,0.176], "Point", "ExhaustPipe_stockV", 0.1, (eulerAngles 0 0 0)),
+			#("marker_exhaust1r", [-0.342,-0.927,0.176], "Point", "ExhaustPipe_stockV", 0.1, (eulerAngles 0 0 0)),
+			#("marker_exhaust2", [0.404,1.710,0.053], "Point", "ExhaustPipe_stockV", 0.1, (eulerAngles 0 0 0)),
 		#("ExhaustPipe_custom", [0,0,0], "root_exhaustpipe", 0.1, (eulerAngles -90 0 0)),
 			#("marker_exhaust0", [0,1.643,0.060], "Point", "ExhaustPipe_custom", 0.1, (eulerAngles 0 0 0)),
 			#("marker_exhaust1", [0,-0.927,0.176], "Point", "ExhaustPipe_custom", 0.1, (eulerAngles 0 0 0)),
@@ -200,9 +200,6 @@ helperList = #(
 		#("HeadlightsRight_stock", [-0.574,-2.010,0.439], "root_headlights_right", 0.1, (eulerAngles -90 0 0)),
 			
     #("root_interior", [0,0,0], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
-		
-    #("root_roof", [0,0.814,1.145], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
-		#("Roof_stock", [0,0.814,1.145], "root_roof", 0.1, (eulerAngles -90 0 0)),
 			
     #("root_skirt_left", [0.851,0,0.062], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
 		#("SkirtLeft_stock", [0.851,0,0.062], "root_skirt_left", 0.1, (eulerAngles -90 0 0)),
@@ -236,7 +233,7 @@ helperList = #(
     #("source_engine", [0,-1.24,0.237], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
     #("source_exhaust2", [0.414,1.771,0.042], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles 0 0 0)),
     #("source_fl_stubadj", [0.275,-1.637,0.070], "Point", #("Chassis_stock","Chassis_missile"), 0.2, (eulerAngles -90 0 0)),
-    #("source_fl_stubadj", [-0.275,-1.637,0.070], "Point", #("Chassis_stock","Chassis_missile"), 0.2, (eulerAngles -90 0 0)),
+    #("source_fr_stubadj", [-0.275,-1.637,0.070], "Point", #("Chassis_stock","Chassis_missile"), 0.2, (eulerAngles -90 0 0)),
 	#("source_frame_rear_left", [0.526,0.673,0.075], "Point", #("Chassis_stock","Chassis_missile"), 0.2, (eulerAngles -90 -30 0)),
 	#("source_frame_rear_right", [-0.526,0.673,0.075], "Point", #("Chassis_stock","Chassis_missile"), 0.2, (eulerAngles -90 30 0)),
 	#("source_front_left", [0.276,-1.276,0.117], "Point", "Chassis_stock", 0.2, (eulerAngles -90 0 0)),
@@ -260,21 +257,24 @@ helperList = #(
 		
 )
 
-rollout helperCreator "Helper Creator" width:260 height:320
+rollout helperCreator "Helper Creator" width:260 height:380
 (
-    button btn_create "Create Objects" pos:[20,20] width:220 height:40
+    groupBox grp_doorCount "Door Count" pos:[20,20] width:220 height:70
+    checkbox chk_door1 "2 Doors" pos:[30,40] width:200 height:20 checked:true
+    checkbox chk_door2 "4 Doors" pos:[30,60] width:200 height:20 checked:false
+
+    groupBox grp_roof "Roof" pos:[20,100] width:220 height:50
+    checkbox chk_roof "Roof" pos:[30,120] width:200 height:20 checked:false
 	
+	groupBox grp_grill "Grill" pos:[20,160] width:220 height:50
+    checkbox chk_grill "Grill" pos:[30,180] width:200 height:20 checked:false
 
-    groupBox grp_doorCount "Door Count" pos:[20,70] width:220 height:70
-    checkbox chk_door1 "2 Doors" pos:[30,90] width:200 height:20 checked:true
-    checkbox chk_door2 "4 Doors" pos:[30,110] width:200 height:20 checked:false
-
-    groupBox grp_roof "Roof" pos:[20,150] width:220 height:50
-    checkbox chk_roof "Roof" pos:[30,170] width:200 height:20 checked:false
-
-    groupBox grp_taillights "Taillights" pos:[20,210] width:220 height:50
-    checkbox chk_taillightscenter "Taillights Center" pos:[30,230] width:200 height:20 checked:false
-	button btn_delete "Delete ALL" pos:[20,270] width:220 height:30
+    groupBox grp_taillights "Taillights" pos:[20,220] width:220 height:50
+    checkbox chk_taillightscenter "Taillights Center" pos:[30,240] width:200 height:20 checked:false
+	
+	button btn_create "Create Objects" pos:[20,280] width:220 height:40
+	
+	button btn_delete "Delete All" pos:[20,330] width:220 height:40
 
     -- ????????? ???????????? ?????????
     on chk_door1 changed state do
@@ -339,6 +339,15 @@ rollout helperCreator "Helper Creator" width:260 height:320
                 #("Roof_stock", [0,0.814,1.145], "root_roof", 0.1, (eulerAngles -90 0 0))
             )
             listToBuild = listToBuild + roofHelpers
+        )
+		
+		if chk_grill.checked do
+        (
+            local grillHelpers = #(
+                #("root_grill", [0,-2.041,0.526], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
+                #("Grill_stock", [0,-2.041,0.526], "root_grill", 0.1, (eulerAngles -90 0 0))
+            )
+            listToBuild = listToBuild + grillHelpers
         )
 
         if chk_taillightscenter.checked do
