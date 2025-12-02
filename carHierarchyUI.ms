@@ -29,7 +29,6 @@ fn isValidDummy d =
     (firstChar == toUpper firstChar)
 )
 
-
 fn collectChildrenSkipMeshes obj arr =
 (
     local children = for c in obj.children where isValidDummy c collect c
@@ -141,22 +140,12 @@ fn rebuildTree tv =
     selectedNodes = #()
     lastSelectedNode = undefined
 
-    -- ???????? dummy (root_*)
     local roots = for obj in objects where (
         isValidDummy obj and matchPattern obj.name pattern:"root_*" and
         (obj.parent == undefined or not isKindOf obj.parent Dummy)
     ) collect obj
 
-    -- orphan dummy (?? root, ?? ??? ????????-dummy)
-    local orphans = for obj in objects where (
-        isValidDummy obj and not matchPattern obj.name pattern:"root_*" and
-        (obj.parent == undefined or not isKindOf obj.parent Dummy)
-    ) collect obj
-
-    -- ??????????
-    local allRoots = roots + orphans
-
-    for r in allRoots do
+    for r in roots do
     (
         local rootNode = tv.Nodes.Add r.name
         rootNode.Tag = dotNetMXSValue r
@@ -166,7 +155,6 @@ fn rebuildTree tv =
     tv.EndUpdate()
     tv.ExpandAll()
 )
-
 
 fn changeHighlightColor tv cbColors =
 (
