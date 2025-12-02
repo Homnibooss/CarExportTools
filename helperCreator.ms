@@ -266,8 +266,8 @@ rollout helperCreator "Helper Creator" width:260 height:320
 	
 
     groupBox grp_doorCount "Door Count" pos:[20,70] width:220 height:70
-    checkbox chk_door1 "1 Door" pos:[30,90] width:200 height:20 checked:true
-    checkbox chk_door2 "2 Doors" pos:[30,110] width:200 height:20 checked:false
+    checkbox chk_door1 "2 Doors" pos:[30,90] width:200 height:20 checked:true
+    checkbox chk_door2 "4 Doors" pos:[30,110] width:200 height:20 checked:false
 
     groupBox grp_roof "Roof" pos:[20,150] width:220 height:50
     checkbox chk_roof "Roof" pos:[30,170] width:200 height:20 checked:false
