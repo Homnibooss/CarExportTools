@@ -1,6 +1,3 @@
-/* ===========================
-   Car Hierarchy Viewer (module)
-   =========================== */
 
 global selectedNodes = #()
 global lastSelectedNode = undefined
@@ -8,7 +5,7 @@ global currentColor = (dotNetClass "System.Drawing.Color").LightBlue
 global tableBackColor = (dotNetClass "System.Drawing.Color").White
 global g_tvHierarchy -- ?????? ?? TreeView ?? ????????? rollout
 
--- ????? TreeNode ?? ???????
+
 global FN_searchNodeByObject
 
 fn FN_searchNodeByObject nodes targetObj =
@@ -25,7 +22,7 @@ fn FN_searchNodeByObject nodes targetObj =
 
 fn findNodeByObject tvCtrl obj = FN_searchNodeByObject tvCtrl.Nodes obj
 
--- ?????????
+
 fn resetColorsTreeNodeCollection nodes =
 (
     for j = 0 to (nodes.Count - 1) do
@@ -145,7 +142,14 @@ fn rebuildTree tv =
     )
 
     tv.EndUpdate()
-    tv.ExpandAll()
+	tv.ExpandAll()
+
+if tv.Nodes.Count > 0 do
+(
+    tv.Nodes.Item[0].EnsureVisible()
+    tv.TopNode = tv.Nodes.Item[0] 
+)
+
 )
 
 fn expandAllTree tv = if tv != undefined do tv.ExpandAll()
