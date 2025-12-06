@@ -229,9 +229,15 @@ on btn_turnRight pressed do placeHelper "turn_right" "B1581B" [90,0,270]
     on mainExportRollout open do
     (
         if g_exportFolder != "" then edtFolderPath.text = g_exportFolder
+			g_tvHierarchy = tvHierarchy
 			setupTreeView tvHierarchy
         rebuildTree tvHierarchy
     )
+	
+	on mainExportRollout close do 
+		(
+    g_tvHierarchy = undefined
+)
 	
 	on btnUpdateHierarchy pressed do rebuildTree tvHierarchy
     on btnExpandHierarchy pressed do expandAllTree tvHierarchy
@@ -239,7 +245,7 @@ on btn_turnRight pressed do placeHelper "turn_right" "B1581B" [90,0,270]
 		
 	
 	on tvHierarchy NodeMouseClick sender args do (
-        handleNodeClick sender args -- ?????? ????????? ????? ? ??????? ?? carHierarchy.ms
+        handleNodeClick sender args 
     )
 
     /* Folder selection */
