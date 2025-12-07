@@ -1,5 +1,7 @@
 include "$scripts/helperCreator.ms"
 include "$scripts/carHierarchyUI.ms"
+include "$scripts/Materials_assigner.ms"
+
 
 global g_exportFolder = ""
 
@@ -158,6 +160,32 @@ rollout mainExportRollout "Main Scene/Export Tools"
     button btnExpandHierarchy "Expand All" pos:[460,30] width:100 height:25
     button btnCollapseHierarchy "Collapse All" pos:[570,30] width:100 height:25
     dotNetControl tvHierarchy "System.Windows.Forms.TreeView" pos:[350,70] width:380 height:520
+	
+	
+	    -- Material Assignment Tool
+    groupBox grpAssignMat "Material Assignment" pos:[10,630] width:300 height:140
+    label    lblMatInfo "Library materials: (not loaded)" pos:[20,650] width:260
+    button   btnLoadLibrary      "Load Material Library"     pos:[20,670] width:260 height:25
+    button   btnAssignSelected   "Assign Selected"           pos:[20,700] width:260 height:25
+    button   btnAssignAllVisible "Assign All Visible Meshes" pos:[20,730] width:260 height:25
+    button   btnAssignAll        "Assign All Meshes"         pos:[20,760] width:260 height:25
+
+     on btnLoadLibrary pressed do
+    (
+        local file = getOpenFileName caption:"Select Material Library" types:"Material Library (*.mat)|*.mat"
+        if file != undefined do
+        (
+            libraryPath = file
+            setINISetting iniFile "Settings" "LibraryPath" libraryPath   -- ????????? ????
+            loadLibraryFromPath libraryPath lblMatInfo
+        )
+    )
+
+    on btnAssignSelected pressed    do assignSelectedMaterials()
+    on btnAssignAllVisible pressed  do assignAllVisibleMaterials()
+    on btnAssignAll pressed         do assignAllMaterials()
+
+    
 
 	
 	
@@ -232,6 +260,7 @@ on btn_turnRight pressed do placeHelper "turn_right" "B1581B" [90,0,270]
 			g_tvHierarchy = tvHierarchy
 			setupTreeView tvHierarchy
         rebuildTree tvHierarchy
+		 initMaterialLibrary lblMatInfo
     )
 	
 	on mainExportRollout close do 
@@ -533,7 +562,7 @@ rollout utilitiesRollout "CarParts Tool"
     on btnOpenExport pressed do
     (
         try(destroyDialog mainExportRollout) catch()
-        createDialog mainExportRollout width:760 height:640 style:#(#style_toolwindow, #style_sysmenu)
+        createDialog mainExportRollout width:760 height:840 style:#(#style_toolwindow, #style_sysmenu)
     )
 
     on btnOpenVertexChecker pressed do
