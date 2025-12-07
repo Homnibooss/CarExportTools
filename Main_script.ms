@@ -155,15 +155,15 @@ rollout mainExportRollout "Main Scene/Export Tools"
     button   btn_apply "Apply" pos:[20,380] width:260 height:25
 	
 	    -- Scene Hierarchy Viewer
-    groupBox grpHierarchyView "Scene Hierarchy" pos:[340,10] width:400 height:600
+    groupBox grpHierarchyView "Scene Hierarchy" pos:[340,10] width:400 height:790
     button btnUpdateHierarchy "Update" pos:[350,30] width:100 height:25
     button btnExpandHierarchy "Expand All" pos:[460,30] width:100 height:25
     button btnCollapseHierarchy "Collapse All" pos:[570,30] width:100 height:25
-    dotNetControl tvHierarchy "System.Windows.Forms.TreeView" pos:[350,70] width:380 height:520
+    dotNetControl tvHierarchy "System.Windows.Forms.TreeView" pos:[350,70] width:380 height:720
 	
 	
 	    -- Material Assignment Tool
-    groupBox grpAssignMat "Material Assignment" pos:[10,630] width:300 height:140
+    groupBox grpAssignMat "Material Assigner" pos:[10,630] width:300 height:170
     label    lblMatInfo "Library materials: (not loaded)" pos:[20,650] width:260
     button   btnLoadLibrary      "Load Material Library"     pos:[20,670] width:260 height:25
     button   btnAssignSelected   "Assign Selected"           pos:[20,700] width:260 height:25
@@ -562,7 +562,7 @@ rollout utilitiesRollout "CarParts Tool"
     on btnOpenExport pressed do
     (
         try(destroyDialog mainExportRollout) catch()
-        createDialog mainExportRollout width:760 height:840 style:#(#style_toolwindow, #style_sysmenu)
+        createDialog mainExportRollout width:760 height:810 style:#(#style_toolwindow, #style_sysmenu)
     )
 
     on btnOpenVertexChecker pressed do
