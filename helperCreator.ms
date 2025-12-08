@@ -223,35 +223,49 @@ helperList = #(
 			
     #("root_window_rear", [0,1.254,0.992], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
 		#("WindowRear_stock", [0,1.254,0.992], "root_window_rear", 0.1, (eulerAngles -90 0 0)),
-			
+		
+	--parts helpers	
     #("source_axis_front", [0,-1.275,0.09], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
     #("source_axis_rear", [0,1.237,0.041], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
+	
     #("source_bracing_front_left", [0.389,-1.292,0.165], "Point", #("Chassis_stock","Chassis_missile"), 0.2, (eulerAngles -90 0 0)),
     #("source_bracing_front_right", [-0.389,-1.292,0.165], "Point", #("Chassis_stock","Chassis_missile"), 0.2, (eulerAngles -90 0 0)),
+	
     #("source_cooler", [0,-1.970,0.241], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
     #("source_diff", [0,1.248,0.150], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
     #("source_engine", [0,-1.24,0.237], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
     #("source_exhaust2", [0.414,1.771,0.042], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles 0 0 0)),
+	
     #("source_fl_stubadj", [0.275,-1.637,0.070], "Point", #("Chassis_stock","Chassis_missile"), 0.2, (eulerAngles -90 0 0)),
     #("source_fr_stubadj", [-0.275,-1.637,0.070], "Point", #("Chassis_stock","Chassis_missile"), 0.2, (eulerAngles -90 0 0)),
+	
+	#("source_rear_left", [0.352,1.237,0.041], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
+	#("source_rear_right", [-0.352,1.237,0.041], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
+	
 	#("source_frame_rear_left", [0.526,0.673,0.075], "Point", #("Chassis_stock","Chassis_missile"), 0.2, (eulerAngles -90 -30 0)),
 	#("source_frame_rear_right", [-0.526,0.673,0.075], "Point", #("Chassis_stock","Chassis_missile"), 0.2, (eulerAngles -90 30 0)),
+	
 	#("source_front_left", [0.276,-1.276,0.117], "Point", "Chassis_stock", 0.2, (eulerAngles -90 0 0)),
 	#("source_front_right", [-0.276,-1.276,0.117], "Point", "Chassis_stock", 0.2, (eulerAngles -90 0 0)),
+	
 	#("source_hose1_front_left", [0.453,-1.242,0.330], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
 	#("source_hose1_front_right", [-0.453,-1.242,0.330], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
 		
 	#("source_radiator", [0,-1.833,0.505], "Chassis_stock", 0.1, (eulerAngles -90 0 0)),
 	#("source_radiator", [0,1.960,0.661], "Chassis_missile", 0.1, (eulerAngles -90 0 0)),
 		
-	#("source_radiatorpipe1Chassis", [-0.118,-0.880,0.423], "Point", "Chassis_stock", 0.1, (eulerAngles 0 0 0)),
-	#("source_radiatorpipe2Chassis", [0,1.434,0.319], "Point", "Chassis_stock", 0.1, (eulerAngles 0 0 0)),
+	#("source_radiatorpipe1Chassis", [-0.118,-0.880,0.423], "Point", "Chassis_missile", 0.1, (eulerAngles 0 0 0)),
+	#("source_radiatorpipe2Chassis", [0,1.434,0.319], "Point", "Chassis_missile", 0.1, (eulerAngles 0 0 0)),
+	
 	#("source_skndhose1_rear_left", [0.485,1.409,0.323], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
 	#("source_skndhose1_rear_right", [-0.485,1.409,0.323], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
+	
 	#("source_topshock_front_left", [0.567,-1.192,0.566], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
 	#("source_topshock_front_right", [-0.567,-1.192,0.566], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
+	
 	#("source_topshock_rear_left", [0.591,1.256,0.557], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
 	#("source_topshock_rear_right", [-0.591,1.256,0.557], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
+	
 	#("source_transmission", [0,-0.685,0.199], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles 0 0 0))
 		
 		
@@ -295,13 +309,13 @@ rollout helperCreator "Helper Creator" width:260 height:380
             local doorHelpers = #(
                 #("root_door_left", [0.828,-0.663,0.369], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
                 #("DoorLeft_stock", [0.828,-0.663,0.369], "root_door_left", 0.1, (eulerAngles -90 0 0)),
-                #("root_door_int_left", [0.633,-0.482,0.409], "DoorLeft_stock", 0.1, (eulerAngles -90 0 0)),
+                #("root_door_int_left", [0.828,-0.663,0.369], "DoorLeft_stock", 0.1, (eulerAngles -90 0 0)),
                 #("root_mirror_left", [0.775,-0.451,0.722], "DoorLeft_stock", 0.1, (eulerAngles -90 0 0)),
                 #("MirrorLeft_stock", [0.775,-0.451,0.722], "root_mirror_left", 0.1, (eulerAngles -90 0 0)),
 
                 #("root_door_right", [-0.828,-0.663,0.369], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
                 #("DoorRight_stock", [-0.828,-0.663,0.369], "root_door_right", 0.1, (eulerAngles -90 0 0)),
-                #("root_door_int_right", [-0.633,-0.482,0.409], "DoorRight_stock", 0.1, (eulerAngles -90 0 0)),
+                #("root_door_int_right", [-0.828,-0.663,0.369], "DoorRight_stock", 0.1, (eulerAngles -90 0 0)),
                 #("root_mirror_right", [-0.775,-0.451,0.722], "DoorRight_stock", 0.1, (eulerAngles -90 0 0)),
                 #("MirrorRight_stock", [-0.775,-0.451,0.722], "root_mirror_right", 0.1, (eulerAngles -90 0 0))
             )
@@ -311,23 +325,25 @@ rollout helperCreator "Helper Creator" width:260 height:380
         if chk_door2.checked do
         (
             local door2Helpers = #(
-                #("root_door_left_front", [0.828,-0.663,0.369], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
-                #("DoorLeft_front_stock", [0.828,-0.663,0.369], "root_door_left_front", 0.1, (eulerAngles -90 0 0)),
-                #("root_door_int_left", [0.633,-0.482,0.409], "DoorLeft_front_stock", 0.1, (eulerAngles -90 0 0)),
-                #("root_mirror_left", [0.775,-0.451,0.722], "DoorLeft_front_stock", 0.1, (eulerAngles -90 0 0)),
+                #("root_door_left", [0.828,-0.663,0.369], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
+                #("DoorLeft_stock", [0.828,-0.663,0.369], "root_door_left", 0.1, (eulerAngles -90 0 0)),
+                #("root_door_int_left", [0.828,-0.663,0.369], "DoorLeft_stock", 0.1, (eulerAngles -90 0 0)),
+                #("root_mirror_left", [0.775,-0.451,0.722], "DoorLeft_stock", 0.1, (eulerAngles -90 0 0)),
                 #("MirrorLeft_stock", [0.775,-0.451,0.722], "root_mirror_left", 0.1, (eulerAngles -90 0 0)),
 
-                #("root_door_right_front", [-0.828,-0.663,0.369], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
-                #("DoorRight_front_stock", [-0.828,-0.663,0.369], "root_door_right_front", 0.1, (eulerAngles -90 0 0)),
-                #("root_door_int_right", [-0.633,-0.482,0.409], "DoorRight_front_stock", 0.1, (eulerAngles -90 0 0)),
-                #("root_mirror_right", [-0.775,-0.451,0.722], "DoorRight_front_stock", 0.1, (eulerAngles -90 0 0)),
+                #("root_door_right", [-0.828,-0.663,0.369], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
+                #("DoorRight_stock", [-0.828,-0.663,0.369], "root_door_right", 0.1, (eulerAngles -90 0 0)),
+                #("root_door_int_right", [-0.828,-0.663,0.369], "DoorRight_stock", 0.1, (eulerAngles -90 0 0)),
+                #("root_mirror_right", [-0.775,-0.451,0.722], "DoorRight_stock", 0.1, (eulerAngles -90 0 0)),
                 #("MirrorRight_stock", [-0.775,-0.451,0.722], "root_mirror_right", 0.1, (eulerAngles -90 0 0)),
 
                 #("root_door_left_rear", [0.828,0.272,0.369], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
-                #("Door_left_stock", [0.828,0.272,0.369], "root_door_left_rear", 0.1, (eulerAngles -90 0 0)),
+                #("DoorLeftRear_stock", [0.828,0.272,0.369], "root_door_left_rear", 0.1, (eulerAngles -90 0 0)),
+				#("root_door_int_left_rear", [0.828,0.272,0.369], "DoorLeftRear_stock", 0.1, (eulerAngles -90 0 0)),
 
                 #("root_door_right_rear", [-0.828,0.272,0.369], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
-                #("Door_right_stock", [-0.828,0.272,0.369], "root_door_right_rear", 0.1, (eulerAngles -90 0 0))
+                #("DoorRightRear_stock", [-0.828,0.272,0.369], "root_door_right_rear", 0.1, (eulerAngles -90 0 0)),
+				#("root_door_int_right_rear", [-0.828,0.272,0.369], "DoorRightRear_stock", 0.1, (eulerAngles -90 0 0))
             )
             listToBuild = listToBuild + door2Helpers
         )
@@ -353,7 +369,7 @@ rollout helperCreator "Helper Creator" width:260 height:380
         if chk_taillightscenter.checked do
         (
             local taillightscenterHelpers = #(
-                #("root_taillights_center", [0,2.165,0.575], "Trunk_stock", 0.1, (eulerAngles -90 0 0)),
+                #("root_taillights_center", [0,2.165,0.575], "Chassis_stock", 0.1, (eulerAngles -90 0 0)),
                 #("TaillightsCenter_stock", [0,2.165,0.575], "root_taillights_center", 0.1, (eulerAngles -90 0 0))
             )
             listToBuild = listToBuild + taillightscenterHelpers
