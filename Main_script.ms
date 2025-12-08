@@ -548,8 +548,8 @@ on btn_turnRight pressed do placeHelper "turn_right" "B1581B" [90,0,270]
 rollout utilitiesRollout "CarParts Tool"
 (
     button btnOpenExport         "Main Tools"    width:150 height:30 pos:[10,10]
-    button btnOpenVertexChecker  "VertexColor Checker"        width:150 height:30 pos:[10,50]
-    button btnOpenNgonsFinder    "N-gons Cheker"                 width:150 height:30 pos:[10,90]
+    button btnOpenVertexChecker  "Vertex Color Checker"        width:150 height:30 pos:[10,50]
+    button btnOpenNgonsFinder    "N-gons Checker"                 width:150 height:30 pos:[10,90]
 	button btnOpenHelperCreator "Helper Creator" width:150 height:30 pos:[10,130]
 
     on btnOpenHelperCreator pressed do
