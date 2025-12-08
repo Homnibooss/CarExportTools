@@ -46,6 +46,51 @@ fn findMaterialByName key =
     foundMat
 )
 
+fn removeSelectedMaterials =
+(
+    if selection.count == 0 then
+    (
+        messageBox "No objects selected!"
+        return()
+    )
+
+    local removedCount = 0
+    local skipped = #()
+
+    for obj in selection do
+    (
+        if isKindOf obj GeometryClass then
+        (
+            if obj.material != undefined then
+            (
+                try(obj.material = undefined)catch()
+                removedCount += 1
+            )
+            else append skipped obj.name
+        )
+        else if isKindOf obj Dummy then
+        (
+            for child in obj.children do
+            (
+                if isKindOf child GeometryClass and child.material != undefined then
+                (
+                    try(child.material = undefined)catch()
+                    removedCount += 1
+                )
+                else append skipped child.name
+            )
+        )
+    )
+
+    local msg = "Materials removed: " + removedCount as string + "\n\n"
+    if skipped.count > 0 then
+    (
+        msg += "The following meshes had no material:\n\n"
+        for s in skipped do msg += (s + "\n")
+    )
+    messageBox msg title:"Remove Selected"
+)
+
 fn assignMaterialsToChildrenByName rootObj =
 (
     local count = 0
