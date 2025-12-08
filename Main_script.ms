@@ -4,6 +4,31 @@ include "$scripts/Materials_assigner.ms"
 
 
 global g_exportFolder = ""
+global g_mainExportDialogState = #expanded
+
+fn toggleMainExportDialog =
+(
+    if g_mainExportDialogState == #expanded then
+    (
+        -- ????????: ????????? ?????? ????
+        local dlg = (windows.getChildHWND 0 "Main Scene/Export Tools")[1]
+        if dlg != undefined do
+        (
+            setDialogSize mainExportRollout [300,50] -- ?????????? ??????
+            g_mainExportDialogState = #collapsed
+        )
+    )
+    else
+    (
+        -- ??????????: ?????????? ???????? ??????
+        local dlg = (windows.getChildHWND 0 "Main Scene/Export Tools")[1]
+        if dlg != undefined do
+        (
+            setDialogSize mainExportRollout [760,840] -- ???? ???????? ??????
+            g_mainExportDialogState = #expanded
+        )
+    )
+)
 
 fn recurseHierarchy node acc =
 (
@@ -120,23 +145,25 @@ fn isDummySafe__DST dummy =
    =========================== */
 rollout mainExportRollout "Main Scene/Export Tools"
 (
+	button btnToggle "Minimize / Restore" pos:[3,3] width:120 height:25
+	
     -- Export Tool
-    groupBox grpExport "Export Tool" pos:[10,10] width:220 height:90
-    button btnExportSelected "Export Selected" width:200 height:30 pos:[20,30]
-    button btnExportAll      "Export All"      width:200 height:30 pos:[20,65]
+    groupBox grpExport "Export Tool" pos:[10,35] width:220 height:90
+    button btnExportSelected "Export Selected" width:200 height:30 pos:[20,55]
+    button btnExportAll      "Export All"      width:200 height:30 pos:[20,90]
 
     --Hierarchy Tool
-    groupBox grpHierarchy     "Hierarchy Tool" pos:[10,110] width:300 height:60
-    button btnBuildHierarchy  "Build Hierarchy"   width:140 height:30 pos:[20,130]
-    button btnUngroupHierarchy "Ungroup Hierarchy" width:140 height:30 pos:[160,130]
+    groupBox grpHierarchy     "Hierarchy Tool" pos:[10,130] width:300 height:60
+    button btnBuildHierarchy  "Build Hierarchy"   width:140 height:30 pos:[20,150]
+    button btnUngroupHierarchy "Ungroup Hierarchy" width:140 height:30 pos:[160,150]
 
     local sides = #("left","right","front","rear","center") --Add new side to build hierarchy
 
     -- Folder selection 
-    label    lblFolderPath   "Folder Path:" pos:[10,180] width:300 height:16
-    edittext edtFolderPath   ""             pos:[10,200] width:300 height:24
-    button   btnSelectFolder "Select Folder..." pos:[10,230] width:300 height:25
-	 button   btnSceneFolder  "Use Scene Folder" pos:[10,260] width:300 height:25
+    label    lblFolderPath   "Folder Path:" pos:[10,200] width:300 height:16
+    edittext edtFolderPath   ""             pos:[10,220] width:300 height:24
+    button   btnSelectFolder "Select Folder..." pos:[10,250] width:300 height:25
+	 button   btnSceneFolder  "Use Scene Folder" pos:[10,280] width:300 height:25
 
     --Dummy Size Tool
 	groupBox grpLightHelpers "Light Helpers" pos:[10,430] width:220 height:190
@@ -187,7 +214,7 @@ rollout mainExportRollout "Main Scene/Export Tools"
     on btnAssignAll pressed         do assignAllMaterials()
 	on btnRemoveSelected pressed do removeSelectedMaterials()
 
-    
+    on btnToggle pressed do toggleMainExportDialog()
 
 	
 	
