@@ -119,11 +119,11 @@ fn isDummySafe__DST dummy =
    Rollout: Export Tool & Hierarchy Tool (includes Dummy Size Tool)
    =========================== */
 rollout mainExportRollout "Main Scene/Export Tools"
-(
+(	
     -- Export Tool
-    groupBox grpExport "Export Tool" pos:[10,10] width:220 height:90
-    button btnExportSelected "Export Selected" width:200 height:30 pos:[20,30]
-    button btnExportAll      "Export All"      width:200 height:30 pos:[20,65]
+    groupBox grpExport "Export Tool" pos:[10,15] width:220 height:90
+    button btnExportSelected "Export Selected" width:200 height:30 pos:[20,35]
+    button btnExportAll      "Export All"      width:200 height:30 pos:[20,70]
 
     --Hierarchy Tool
     groupBox grpHierarchy     "Hierarchy Tool" pos:[10,110] width:300 height:60
@@ -155,20 +155,21 @@ rollout mainExportRollout "Main Scene/Export Tools"
     button   btn_apply "Apply" pos:[20,380] width:260 height:25
 	
 	    -- Scene Hierarchy Viewer
-    groupBox grpHierarchyView "Scene Hierarchy" pos:[340,10] width:400 height:790
+    groupBox grpHierarchyView "Scene Hierarchy" pos:[340,10] width:400 height:815
     button btnUpdateHierarchy "Update" pos:[350,30] width:100 height:25
     button btnExpandHierarchy "Expand All" pos:[460,30] width:100 height:25
     button btnCollapseHierarchy "Collapse All" pos:[570,30] width:100 height:25
-    dotNetControl tvHierarchy "System.Windows.Forms.TreeView" pos:[350,70] width:380 height:720
+    dotNetControl tvHierarchy "System.Windows.Forms.TreeView" pos:[350,70] width:380 height:745
 	
 	
 	    -- Material Assignment Tool
-    groupBox grpAssignMat "Material Assigner" pos:[10,630] width:300 height:170
+    groupBox grpAssignMat "Material Assigner" pos:[10,630] width:290 height:195
     label    lblMatInfo "Library materials: (not loaded)" pos:[20,650] width:260
     button   btnLoadLibrary      "Load Material Library"     pos:[20,670] width:260 height:25
     button   btnAssignSelected   "Assign Selected"           pos:[20,700] width:260 height:25
     button   btnAssignAllVisible "Assign All Visible Meshes" pos:[20,730] width:260 height:25
     button   btnAssignAll        "Assign All Meshes"         pos:[20,760] width:260 height:25
+	button btnRemoveSelected "Remove Selected Materials" 	 pos:[20,790] width:260 height:25
 
      on btnLoadLibrary pressed do
     (
@@ -184,8 +185,8 @@ rollout mainExportRollout "Main Scene/Export Tools"
     on btnAssignSelected pressed    do assignSelectedMaterials()
     on btnAssignAllVisible pressed  do assignAllVisibleMaterials()
     on btnAssignAll pressed         do assignAllMaterials()
+	on btnRemoveSelected pressed do removeSelectedMaterials()
 
-    
 
 	
 	
@@ -222,7 +223,10 @@ fn placeHelper name colorHex rotAngles =
     if chk_placeByClick.checked then
     (
         local p = pickPoint snap:#3D
-        if p != undefined do makeHelper name colorHex p rotAngles
+        if (p != undefined and p != #rightClick) then
+        (
+            makeHelper name colorHex p rotAngles
+        )
     )
     else
     (
@@ -562,7 +566,7 @@ rollout utilitiesRollout "CarParts Tool"
     on btnOpenExport pressed do
     (
         try(destroyDialog mainExportRollout) catch()
-        createDialog mainExportRollout width:760 height:810 style:#(#style_toolwindow, #style_sysmenu)
+        createDialog mainExportRollout width:760 height:840 style:#(#style_toolwindow, #style_sysmenu)
     )
 
     on btnOpenVertexChecker pressed do
