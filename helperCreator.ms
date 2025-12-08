@@ -244,8 +244,8 @@ helperList = #(
 	#("source_radiator", [0,-1.833,0.505], "Chassis_stock", 0.1, (eulerAngles -90 0 0)),
 	#("source_radiator", [0,1.960,0.661], "Chassis_missile", 0.1, (eulerAngles -90 0 0)),
 		
-	#("source_radiatorpipe1Chassis", [-0.118,-0.880,0.423], "Point", "Chassis_stock", 0.1, (eulerAngles 0 0 0)),
-	#("source_radiatorpipe2Chassis", [0,1.434,0.319], "Point", "Chassis_stock", 0.1, (eulerAngles 0 0 0)),
+	#("source_radiatorpipe1Chassis", [-0.118,-0.880,0.423], "Point", "Chassis_missile", 0.1, (eulerAngles 0 0 0)),
+	#("source_radiatorpipe2Chassis", [0,1.434,0.319], "Point", "Chassis_missile", 0.1, (eulerAngles 0 0 0)),
 	#("source_skndhose1_rear_left", [0.485,1.409,0.323], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
 	#("source_skndhose1_rear_right", [-0.485,1.409,0.323], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
 	#("source_topshock_front_left", [0.567,-1.192,0.566], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
@@ -295,13 +295,13 @@ rollout helperCreator "Helper Creator" width:260 height:380
             local doorHelpers = #(
                 #("root_door_left", [0.828,-0.663,0.369], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
                 #("DoorLeft_stock", [0.828,-0.663,0.369], "root_door_left", 0.1, (eulerAngles -90 0 0)),
-                #("root_door_int_left", [0.633,-0.482,0.409], "DoorLeft_stock", 0.1, (eulerAngles -90 0 0)),
+                #("root_door_int_left", [0.828,-0.663,0.369], "DoorLeft_stock", 0.1, (eulerAngles -90 0 0)),
                 #("root_mirror_left", [0.775,-0.451,0.722], "DoorLeft_stock", 0.1, (eulerAngles -90 0 0)),
                 #("MirrorLeft_stock", [0.775,-0.451,0.722], "root_mirror_left", 0.1, (eulerAngles -90 0 0)),
 
                 #("root_door_right", [-0.828,-0.663,0.369], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
                 #("DoorRight_stock", [-0.828,-0.663,0.369], "root_door_right", 0.1, (eulerAngles -90 0 0)),
-                #("root_door_int_right", [-0.633,-0.482,0.409], "DoorRight_stock", 0.1, (eulerAngles -90 0 0)),
+                #("root_door_int_right", [-0.828,-0.663,0.369], "DoorRight_stock", 0.1, (eulerAngles -90 0 0)),
                 #("root_mirror_right", [-0.775,-0.451,0.722], "DoorRight_stock", 0.1, (eulerAngles -90 0 0)),
                 #("MirrorRight_stock", [-0.775,-0.451,0.722], "root_mirror_right", 0.1, (eulerAngles -90 0 0))
             )
@@ -311,23 +311,25 @@ rollout helperCreator "Helper Creator" width:260 height:380
         if chk_door2.checked do
         (
             local door2Helpers = #(
-                #("root_door_left_front", [0.828,-0.663,0.369], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
-                #("DoorLeft_front_stock", [0.828,-0.663,0.369], "root_door_left_front", 0.1, (eulerAngles -90 0 0)),
-                #("root_door_int_left", [0.633,-0.482,0.409], "DoorLeft_front_stock", 0.1, (eulerAngles -90 0 0)),
-                #("root_mirror_left", [0.775,-0.451,0.722], "DoorLeft_front_stock", 0.1, (eulerAngles -90 0 0)),
+                #("root_door_left", [0.828,-0.663,0.369], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
+                #("DoorLeft_stock", [0.828,-0.663,0.369], "root_door_left", 0.1, (eulerAngles -90 0 0)),
+                #("root_door_int_left", [0.828,-0.663,0.369], "DoorLeft_stock", 0.1, (eulerAngles -90 0 0)),
+                #("root_mirror_left", [0.775,-0.451,0.722], "DoorLeft_stock", 0.1, (eulerAngles -90 0 0)),
                 #("MirrorLeft_stock", [0.775,-0.451,0.722], "root_mirror_left", 0.1, (eulerAngles -90 0 0)),
 
-                #("root_door_right_front", [-0.828,-0.663,0.369], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
-                #("DoorRight_front_stock", [-0.828,-0.663,0.369], "root_door_right_front", 0.1, (eulerAngles -90 0 0)),
-                #("root_door_int_right", [-0.633,-0.482,0.409], "DoorRight_front_stock", 0.1, (eulerAngles -90 0 0)),
-                #("root_mirror_right", [-0.775,-0.451,0.722], "DoorRight_front_stock", 0.1, (eulerAngles -90 0 0)),
+                #("root_door_right", [-0.828,-0.663,0.369], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
+                #("DoorRight_stock", [-0.828,-0.663,0.369], "root_door_right", 0.1, (eulerAngles -90 0 0)),
+                #("root_door_int_right", [-0.828,-0.663,0.369], "DoorRight_stock", 0.1, (eulerAngles -90 0 0)),
+                #("root_mirror_right", [-0.775,-0.451,0.722], "DoorRight_stock", 0.1, (eulerAngles -90 0 0)),
                 #("MirrorRight_stock", [-0.775,-0.451,0.722], "root_mirror_right", 0.1, (eulerAngles -90 0 0)),
 
                 #("root_door_left_rear", [0.828,0.272,0.369], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
-                #("Door_left_stock", [0.828,0.272,0.369], "root_door_left_rear", 0.1, (eulerAngles -90 0 0)),
+                #("DoorLeftRear_stock", [0.828,0.272,0.369], "root_door_left_rear", 0.1, (eulerAngles -90 0 0)),
+				#("root_door_int_left_rear", [0.828,0.272,0.369], "DoorLeftRear_stock", 0.1, (eulerAngles -90 0 0)),
 
                 #("root_door_right_rear", [-0.828,0.272,0.369], #("Chassis_stock","Chassis_missile"), 0.1, (eulerAngles -90 0 0)),
-                #("Door_right_stock", [-0.828,0.272,0.369], "root_door_right_rear", 0.1, (eulerAngles -90 0 0))
+                #("DoorRightRear_stock", [-0.828,0.272,0.369], "root_door_right_rear", 0.1, (eulerAngles -90 0 0)),
+				#("root_door_int_right_rear", [-0.828,0.272,0.369], "DoorRightRear_stock", 0.1, (eulerAngles -90 0 0))
             )
             listToBuild = listToBuild + door2Helpers
         )
@@ -353,7 +355,7 @@ rollout helperCreator "Helper Creator" width:260 height:380
         if chk_taillightscenter.checked do
         (
             local taillightscenterHelpers = #(
-                #("root_taillights_center", [0,2.165,0.575], "Trunk_stock", 0.1, (eulerAngles -90 0 0)),
+                #("root_taillights_center", [0,2.165,0.575], "Chassis_stock", 0.1, (eulerAngles -90 0 0)),
                 #("TaillightsCenter_stock", [0,2.165,0.575], "root_taillights_center", 0.1, (eulerAngles -90 0 0))
             )
             listToBuild = listToBuild + taillightscenterHelpers
