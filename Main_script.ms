@@ -4,6 +4,78 @@ include "$scripts/Materials_assigner.ms"
 
 
 global g_exportFolder = ""
+global g_interiorFolder = ""
+global exportDummyHierarchyToFBX
+global exportDummyHierarchyWithRouting
+
+fn exportDummyHierarchyWithRouting dummyNode =
+(
+    if dummyNode == undefined or not isValidNode dummyNode do return false
+    if g_exportFolder == "" or g_interiorFolder == "" do
+    (
+        messageBox "Please select an export folder." title:"Folder not selected"
+        return false
+    )
+
+    local targetFolder = g_exportFolder
+    local nameLower = toLower dummyNode.name
+    local interiorPrefixes = #("doorint","dash","gauges","handbrake","seat","shifter","steeringwheel")
+
+    for p in interiorPrefixes do
+    (
+        if matchPattern nameLower pattern:(p + "*") ignoreCase:true then
+        (
+            targetFolder = g_interiorFolder
+            exit
+        )
+    )
+
+    exportDummyHierarchyToFBX dummyNode targetFolder includeChildren:false
+)
+
+fn ensureExportDirs rootPath =
+(
+    local cleanRoot = pathConfig.normalizePath rootPath
+    
+    local compPath     = pathConfig.appendPath cleanRoot "Components"
+    local interiorPath = pathConfig.appendPath cleanRoot "Interior_Components"
+
+    if not doesFileExist compPath do makeDir compPath
+    if not doesFileExist interiorPath do makeDir interiorPath
+
+    g_exportFolder   = compPath
+    g_interiorFolder = interiorPath
+)
+
+
+
+fn savePathsToIni =
+(
+    if iniFile != undefined do
+    (
+        setINISetting iniFile "Paths" "ExportRoot" (getFilenamePath g_exportFolder)  -- root is parent of Components
+        setINISetting iniFile "Paths" "Components" g_exportFolder
+        setINISetting iniFile "Paths" "Interior"   g_interiorFolder
+    )
+)
+
+fn loadPathsFromIni =
+(
+    if iniFile == undefined then return false
+
+    local rootPath = getINISetting iniFile "Paths" "ExportRoot"
+    local compPath = getINISetting iniFile "Paths" "Components"
+    local intPath  = getINISetting iniFile "Paths" "Interior"
+
+    if rootPath == undefined or rootPath == "" then return false
+
+    -- Validate and (re)create folders
+    ensureExportDirs rootPath
+
+    -- UI sync
+    try (edtFolderPath.text = g_exportFolder) catch()
+    true
+)
 
 fn recurseHierarchy node acc =
 (
@@ -78,8 +150,11 @@ fn exportDummyHierarchyToFBX dummyNode exportDir includeChildren:true =
     local safeName = filterString dummyNode.name ":\\/*?\"<>|" splitEmptyTokens:false
     local fileName = exportDir + "\\" + (safeName[1]) + ".fbx"
     exportFile fileName #noPrompt selectedOnly:true using:FBXEXP
-    return true
+    true
 )
+
+
+
 
 fn collectChildren node acc =
 (
@@ -258,19 +333,23 @@ on btn_turnRight pressed do placeHelper "turn_right" "B1581B" [90,0,270]
 	
 
     /* Rollout open */
-    on mainExportRollout open do
-    (
-        if g_exportFolder != "" then edtFolderPath.text = g_exportFolder
-			g_tvHierarchy = tvHierarchy
-			setupTreeView tvHierarchy
-        rebuildTree tvHierarchy
-		 initMaterialLibrary lblMatInfo
-    )
-	
-	on mainExportRollout close do 
-		(
+   on mainExportRollout open do
+(
+    g_tvHierarchy = tvHierarchy
+    setupTreeView tvHierarchy
+    rebuildTree tvHierarchy
+    initMaterialLibrary lblMatInfo
+
+    if g_exportFolder != "" do edtFolderPath.text = g_exportFolder
+)
+
+
+on mainExportRollout close do
+(
+    savePathsToIni()
     g_tvHierarchy = undefined
 )
+
 	
 	on btnUpdateHierarchy pressed do rebuildTree tvHierarchy
     on btnExpandHierarchy pressed do expandAllTree tvHierarchy
@@ -281,44 +360,45 @@ on btn_turnRight pressed do placeHelper "turn_right" "B1581B" [90,0,270]
         handleNodeClick sender args 
     )
 
-    /* Folder selection */
-    on btnSelectFolder pressed do
+  on btnSceneFolder pressed do
+(
+    if maxFilePath != undefined and maxFilePath != "" then
     (
-        local selectedDir = getSavePath caption:"Select export folder"
-        if selectedDir != undefined then
-        (
-            g_exportFolder = selectedDir
-            edtFolderPath.text = g_exportFolder
-        )
+        local sceneRoot = pathConfig.normalizePath maxFilePath
+        ensureExportDirs sceneRoot
+        edtFolderPath.text = g_exportFolder
+        savePathsToIni()
     )
-	
-	on btnSceneFolder pressed do
+    else
     (
-        if maxFilePath != undefined and maxFilePath != "" then
-        (
-            local compPath = maxFilePath + "Components"
-            
-            -- ???? ????? ?? ??????????, ???????
-            if not doesFileExist compPath do
-            (
-                makeDir compPath
-            )
-            
-            g_exportFolder = compPath
-            edtFolderPath.text = g_exportFolder
-        )
-        else
-        (
-            messageBox "Please, save scene."
-        )
+        messageBox "Please, save scene."
     )
+)
+
+on btnSelectFolder pressed do
+(
+    local selectedRoot = getSavePath caption:"Select export root folder"
+    if selectedRoot != undefined then
+    (
+        local cleanRoot = pathConfig.normalizePath selectedRoot
+        ensureExportDirs cleanRoot
+        edtFolderPath.text = g_exportFolder
+        savePathsToIni()
+    )
+)
+
+
+
+
 	
     on edtFolderPath changed txt do g_exportFolder = txt
 
-    /* Export Selected */
-    fn exportSelectedDummies =
+    /* ===========================
+   Export Selected Dummies
+   =========================== */
+fn exportSelectedDummies =
 (
-    if g_exportFolder == "" then
+    if g_exportFolder == "" or g_interiorFolder == "" then
     (
         messageBox "Please select an export folder." title:"Folder not selected"
         return false
@@ -348,7 +428,7 @@ on btn_turnRight pressed do placeHelper "turn_right" "B1581B" [90,0,270]
                 obj.parent     = undefined
             )
 
-            exportDummyHierarchyToFBX obj g_exportFolder includeChildren:false
+            exportDummyHierarchyWithRouting obj
 
             if originalParent != undefined and isValidNode originalParent then obj.parent = originalParent
             for t in modTracker do removeModifiers t[1] t[2]
@@ -356,46 +436,48 @@ on btn_turnRight pressed do placeHelper "turn_right" "B1581B" [90,0,270]
     )
 )
 
-
-    /* Export All */
-    fn exportAllDummies =
+fn exportAllDummies =
+(
+    if g_exportFolder == "" or g_interiorFolder == "" then
     (
-        if g_exportFolder == "" then
-        (
-            messageBox "Please select an export folder." title:"Folder not selected"
-            return false
-        )
-
-        local allDummies = for obj in objects where (classof obj == Dummy) collect obj
-        if allDummies.count == 0 then
-        (
-            messageBox "No Dummy objects found in the scene." title:"Nothing to export"
-            return false
-        )
-
-        for dummy in allDummies do
-        (
-            if matchPattern (toLower dummy.name) pattern:"root*" then continue
-
-            local attached = for obj in objects where (obj.parent == dummy) collect obj
-            if attached.count == 0 then continue
-
-            local modTracker = #()
-            for a in attached do append modTracker #(a, clearExtraUVMaps a)
-
-            local originalParent = undefined
-            if dummy.parent != undefined then
-            (
-                originalParent = dummy.parent
-                dummy.parent   = undefined
-            )
-
-            exportDummyHierarchyToFBX dummy g_exportFolder includeChildren:false
-
-            if originalParent != undefined and isValidNode originalParent then dummy.parent = originalParent
-            for t in modTracker do removeModifiers t[1] t[2]
-        )
+        messageBox "Please select an export folder." title:"Folder not selected"
+        return false
     )
+
+    local allDummies = for obj in objects where (classof obj == Dummy) collect obj
+    if allDummies.count == 0 then
+    (
+        messageBox "No Dummy objects found in the scene." title:"Nothing to export"
+        return false
+    )
+
+    for dummy in allDummies do
+    (
+        if matchPattern (toLower dummy.name) pattern:"root*" then continue
+
+        local attached = for obj in objects where (obj.parent == dummy) collect obj
+        if attached.count == 0 then continue
+
+        local modTracker = #()
+        for a in attached do append modTracker #(a, clearExtraUVMaps a)
+
+        local originalParent = undefined
+        if dummy.parent != undefined then
+        (
+            originalParent = dummy.parent
+            dummy.parent   = undefined
+        )
+
+        exportDummyHierarchyWithRouting dummy
+
+        if originalParent != undefined and isValidNode originalParent then dummy.parent = originalParent
+        for t in modTracker do removeModifiers t[1] t[2]
+    )
+)
+
+
+
+
 
     on btnExportSelected pressed do exportSelectedDummies()
     on btnExportAll      pressed do exportAllDummies()
