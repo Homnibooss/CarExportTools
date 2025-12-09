@@ -317,42 +317,45 @@ on btn_turnRight pressed do placeHelper "turn_right" "B1581B" [90,0,270]
 
     /* Export Selected */
     fn exportSelectedDummies =
+(
+    if g_exportFolder == "" then
     (
-        if g_exportFolder == "" then
-        (
-            messageBox "Please select an export folder." title:"Folder not selected"
-            return false
-        )
+        messageBox "Please select an export folder." title:"Folder not selected"
+        return false
+    )
 
-        local selectedObjects = selection as array
-        if selectedObjects.count == 0 then
-        (
-            messageBox "Select at least one Dummy object." title:"Nothing selected"
-            return false
-        )
+    local selectedObjects = selection as array
+    if selectedObjects.count == 0 then
+    (
+        messageBox "Select at least one Dummy object." title:"Nothing selected"
+        return false
+    )
 
-        for obj in selectedObjects do
+    for obj in selectedObjects do
+    (
+        if isValidNode obj and (classof obj == Dummy) then
         (
-            if isValidNode obj and (classof obj == Dummy) then
+            if matchPattern (toLower obj.name) pattern:"root_*" ignoreCase:true then continue
+
+            local attached    = for c in objects where (c.parent == obj) collect c
+            local modTracker  = #()
+            for a in attached do append modTracker #(a, clearExtraUVMaps a)
+
+            local originalParent = undefined
+            if obj.parent != undefined then
             (
-                local attached    = for c in objects where (c.parent == obj) collect c
-                local modTracker  = #()
-                for a in attached do append modTracker #(a, clearExtraUVMaps a)
-
-                local originalParent = undefined
-                if obj.parent != undefined then
-                (
-                    originalParent = obj.parent
-                    obj.parent     = undefined
-                )
-
-                exportDummyHierarchyToFBX obj g_exportFolder includeChildren:false
-
-                if originalParent != undefined and isValidNode originalParent then obj.parent = originalParent
-                for t in modTracker do removeModifiers t[1] t[2]
+                originalParent = obj.parent
+                obj.parent     = undefined
             )
+
+            exportDummyHierarchyToFBX obj g_exportFolder includeChildren:false
+
+            if originalParent != undefined and isValidNode originalParent then obj.parent = originalParent
+            for t in modTracker do removeModifiers t[1] t[2]
         )
     )
+)
+
 
     /* Export All */
     fn exportAllDummies =
