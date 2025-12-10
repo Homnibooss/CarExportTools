@@ -38,7 +38,7 @@ fn ensureExportDirs rootPath =
     local cleanRoot = pathConfig.normalizePath rootPath
     
     local compPath     = pathConfig.appendPath cleanRoot "Components"
-    local interiorPath = pathConfig.appendPath cleanRoot "Interior_Components"
+    local interiorPath = pathConfig.appendPath cleanRoot "Components\Interior"
 
     if not doesFileExist compPath do makeDir compPath
     if not doesFileExist interiorPath do makeDir interiorPath
