@@ -428,13 +428,24 @@ fn exportSelectedDummies =
                 obj.parent     = undefined
             )
 
-            exportDummyHierarchyWithRouting obj
+            local nameLower = toLower obj.name
+            if (matchPattern nameLower pattern:"shifter*" ignoreCase:true) or
+               (matchPattern nameLower pattern:"handbrake*" ignoreCase:true) then
+            (
+                -- ???????????? ??? ???????? ? Interior
+                exportDummyHierarchyToFBX obj g_interiorFolder includeChildren:true
+            )
+            else
+            (
+                exportDummyHierarchyWithRouting obj
+            )
 
             if originalParent != undefined and isValidNode originalParent then obj.parent = originalParent
             for t in modTracker do removeModifiers t[1] t[2]
         )
     )
 )
+
 
 fn exportAllDummies =
 (
@@ -468,12 +479,24 @@ fn exportAllDummies =
             dummy.parent   = undefined
         )
 
-        exportDummyHierarchyWithRouting dummy
+        local nameLower = toLower dummy.name
+        if (matchPattern nameLower pattern:"shifter*" ignoreCase:true) or
+           (matchPattern nameLower pattern:"handbrake*" ignoreCase:true) then
+        (
+            -- ???????????? ??? ???????? ? Interior
+            exportDummyHierarchyToFBX dummy g_interiorFolder includeChildren:true
+        )
+        else
+        (
+            exportDummyHierarchyWithRouting dummy
+        )
 
         if originalParent != undefined and isValidNode originalParent then dummy.parent = originalParent
         for t in modTracker do removeModifiers t[1] t[2]
     )
 )
+
+
 
 
 
