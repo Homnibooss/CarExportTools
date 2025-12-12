@@ -664,6 +664,63 @@ rollout utilitiesRollout "CarParts Tool"
     button btnOpenNgonsFinder    "N-gons Checker"                 width:150 height:30 pos:[10,90]
 	button btnOpenHelperCreator "Helper Creator" width:150 height:30 pos:[10,130]
 
+	groupBox grpQuickExport "QuickExport" pos:[10,170] width:150 height:50
+	button btnQuickExport "Export Selected" width:130 height:25 pos:[20,187]
+	
+	
+	fn exportSelectedDummies =
+(
+    if g_exportFolder == "" or g_interiorFolder == "" then
+    (
+        messageBox "Please select an export folder." title:"Folder not selected"
+        return false
+    )
+
+    local selectedObjects = selection as array
+    if selectedObjects.count == 0 then
+    (
+        messageBox "Select at least one Dummy object." title:"Nothing selected"
+        return false
+    )
+
+    for obj in selectedObjects do
+    (
+        if isValidNode obj and (classof obj == Dummy) then
+        (
+            if matchPattern (toLower obj.name) pattern:"root_*" ignoreCase:true then continue
+
+            local attached    = for c in objects where (c.parent == obj) collect c
+            local modTracker  = #()
+            for a in attached do append modTracker #(a, clearExtraUVMaps a)
+
+            local originalParent = undefined
+            if obj.parent != undefined then
+            (
+                originalParent = obj.parent
+                obj.parent     = undefined
+            )
+
+            local nameLower = toLower obj.name
+            if (matchPattern nameLower pattern:"shifter*" ignoreCase:true) or
+               (matchPattern nameLower pattern:"handbrake*" ignoreCase:true) then
+            (
+                -- ???????????? ??? ???????? ? Interior
+                exportDummyHierarchyToFBX obj g_interiorFolder includeChildren:true
+            )
+            else
+            (
+                exportDummyHierarchyWithRouting obj
+            )
+
+            if originalParent != undefined and isValidNode originalParent then obj.parent = originalParent
+            for t in modTracker do removeModifiers t[1] t[2]
+        )
+    )
+)
+	
+	
+	on btnQuickExport pressed do exportSelectedDummies()
+
     on btnOpenHelperCreator pressed do
     (
        try(destroyDialog helperCreator) catch()
